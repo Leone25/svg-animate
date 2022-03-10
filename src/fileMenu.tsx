@@ -5,7 +5,10 @@ function FileMenu({ closeCallback, show } : {
 }) {
     return (
         <div className={"filemenu" + (show ? " open" : "")}>
-            <div onClick={closeCallback}>return</div>
+            <div className="left">
+                <div onClick={closeCallback}>return</div>
+            </div>
+            
             fileMenu
         </div>
     );
