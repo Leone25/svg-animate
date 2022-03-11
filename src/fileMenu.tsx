@@ -10,23 +10,23 @@ function FileMenu({ closeCallback, show } : {
         <Tabs className={"filemenu" + (show ? " open" : "")}>
             <TabList>
                 <div className="react-tabs__tab" onClick={closeCallback}><ArrowLeft32Regular /></div>
-                <Tab>one</Tab>
-                <Tab>two</Tab>
-                <Tab>three</Tab>
-                <Tab>four</Tab>
+                <Tab>Open</Tab>
+                <Tab>Info</Tab>
+                <Tab>Save</Tab>
+                <Tab>Export</Tab>
             </TabList>
             <div>
                 <TabPanel>
-                    fileMenu1
+                    Probably a button to open a file
                 </TabPanel>
                 <TabPanel>
-                    fileMenu2
+                    Idk man
                 </TabPanel>
                 <TabPanel>
-                    fileMenu3
+                    Likely save options
                 </TabPanel>
                 <TabPanel>
-                    fileMenu4
+                    Make vector go brrrrr
                 </TabPanel>
             </div>
         </Tabs>
