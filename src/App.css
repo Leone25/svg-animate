@@ -24,6 +24,10 @@
   cursor: pointer;
 }
 
+.ribon .react-tabs__tab:hover {
+  background: rgb(0, 20, 29);
+}
+
 .ribon .react-tabs__tab--selected {
   background: rgb(0, 43, 63);
   border-bottom:rgb(0, 137, 201) solid 3px;
@@ -59,6 +63,10 @@
   list-style: none;
   padding: 6px 12px;
   cursor: pointer;
+}
+
+.filemenu .react-tabs__tab:hover {
+  background: rgb(0, 20, 29);
 }
 
 .filemenu .react-tabs__tab--selected {

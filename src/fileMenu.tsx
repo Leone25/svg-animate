@@ -9,7 +9,7 @@ function FileMenu({ closeCallback, show } : {
     return (
         <Tabs className={"filemenu" + (show ? " open" : "")}>
             <TabList>
-                <div onClick={closeCallback}><ArrowLeft32Regular /></div>
+                <div className="react-tabs__tab" onClick={closeCallback}><ArrowLeft32Regular /></div>
                 <Tab>one</Tab>
                 <Tab>two</Tab>
                 <Tab>three</Tab>
