@@ -1,5 +1,11 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { ArrowLeft32Regular } from "@fluentui/react-icons";
+import { 
+    ArrowLeft32Regular,
+    Save16Regular,
+    Info16Regular,
+    FolderOpen16Regular,
+    ArrowExportLtr16Regular,
+ } from "@fluentui/react-icons";
 
 
 function FileMenu({ closeCallback, show } : {
@@ -10,10 +16,10 @@ function FileMenu({ closeCallback, show } : {
         <Tabs className={"filemenu" + (show ? " open" : "")}>
             <TabList>
                 <div className="react-tabs__tab" onClick={closeCallback}><ArrowLeft32Regular /></div>
-                <Tab>Open</Tab>
-                <Tab>Info</Tab>
-                <Tab>Save</Tab>
-                <Tab>Export</Tab>
+                <Tab>Open <FolderOpen16Regular className="icon" /></Tab>
+                <Tab>Info <Info16Regular className="icon" /></Tab>
+                <Tab>Save <Save16Regular className="icon" /></Tab>
+                <Tab>Export <ArrowExportLtr16Regular className="icon" /></Tab>
             </TabList>
             <div>
                 <TabPanel>

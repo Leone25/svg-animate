@@ -104,6 +104,14 @@
   cursor: pointer;
 }
 
+.filemenu .react-tabs__tab .icon {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+}
+
 .filemenu .react-tabs__tab:not(.react-tabs__tab--selected):hover {
   background: rgb(0, 20, 29);
 }
