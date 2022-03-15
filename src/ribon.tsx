@@ -1,5 +1,6 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { CopyRegular } from '@fluentui/react-icons'
+import { ClipboardPasteRegular, CopyRegular } from '@fluentui/react-icons'
+import { BigButton } from './components/ribonPrimitives';
 
 function Ribon({ onOpenFileMenu } : {
     onOpenFileMenu: () => void;
@@ -13,10 +14,15 @@ function Ribon({ onOpenFileMenu } : {
             </TabList>
             <div>
                 <TabPanel>
-                    <div className='big-button'>
-                        <CopyRegular fontSize={40}/>
-                        Copy
-                    </div>
+                    <BigButton
+                        icon={<ClipboardPasteRegular fontSize={40}/>}
+                        text="Paste"
+                        showMenu={true}
+                    ></BigButton>
+                    <BigButton
+                        icon={<CopyRegular fontSize={40}/>}
+                        text="Copy"
+                    ></BigButton>
                 </TabPanel>
                 <TabPanel>
                     <h2>View</h2>

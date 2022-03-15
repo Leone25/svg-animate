@@ -52,14 +52,15 @@
 
 .ribon .big-button {
   display: grid;
+  justify-items: center;
   border: 1px solid transparent;
   bottom: -1px;
   position: relative;
   list-style: none;
-  padding: 6px 12px;
-  margin: 6px 12px;
   cursor: pointer;
   border-radius: 4px;
+  padding: 6px 12px 0 12px;
+  margin: 6px;
 }
 
 .ribon .big-button:hover {
@@ -70,6 +71,17 @@
 .ribon .big-button.active {
   background: rgb(0, 43, 63);
   border: 1px solid #555;
+}
+
+.ribon .big-button__menu {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  border-top: 1px solid transparent;
+}
+
+.ribon .big-button__menu:hover {
+  border-top: 1px solid #333;
 }
 
 .filemenu {
