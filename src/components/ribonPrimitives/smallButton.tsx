@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { ChevronDown12Regular } from '@fluentui/react-icons'
 
-export function BigButton({ icon, text, children, showMenu = false, active = false, onClick, onMenuOpen, onMenuClose } : {
+export function SmallButton({ icon, text, children, showMenu = false, active = false, onClick, onMenuOpen, onMenuClose } : {
     icon: React.ReactNode,
     text: string,
     children?: React.ReactChildren[],
@@ -21,15 +21,14 @@ export function BigButton({ icon, text, children, showMenu = false, active = fal
 
     return (
         <>
-            <div className={'big-button' + (isMenuOpen ? ' active' : '')} title={text}>
+            <div className={'small-button' + (isMenuOpen ? ' active' : '')} title={text}>
                 {icon}
-                {text}
-                {showMenu && (<div className='big-button__menu' onClick={handleMenuClick} title={text + " menu"}>
+                {showMenu && (<div className='small-button__menu' onClick={handleMenuClick} title={text + " menu"}>
                     <ChevronDown12Regular />
                 </div>)}
             </div>
             {isMenuOpen && (
-                <div className='big-button__menu-window'>
+                <div className='small-button__menu-window'>
                     {children}
                 </div>
             )}

@@ -63,12 +63,25 @@
   margin: 6px;
 }
 
-.ribon .big-button:hover {
+.ribon .small-button {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border: 1px solid transparent;
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 6px;
+}
+
+.ribon :is(.big-button, .small-button):hover {
   background: rgb(0, 20, 29);
   border: 1px solid #333;
 }
 
-.ribon .big-button.active {
+.ribon :is(.big-button, .small-button).active {
   background: rgb(0, 43, 63);
   border: 1px solid #555;
 }
