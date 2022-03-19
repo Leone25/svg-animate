@@ -1,6 +1,6 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { ClipboardPasteRegular, CopyRegular, ArrowUndoRegular } from '@fluentui/react-icons'
-import { BigButton, SmallButton, Divider } from './components/ribonPrimitives';
+import { ClipboardPasteRegular, CopyRegular, ArrowUndoRegular, ArrowRedoRegular, QuestionRegular } from '@fluentui/react-icons'
+import { BigButton, SmallButton, Divider, VerticalAlign } from './components/ribonPrimitives';
 
 function Ribon({ onOpenFileMenu } : {
     onOpenFileMenu: () => void;
@@ -14,20 +14,32 @@ function Ribon({ onOpenFileMenu } : {
             </TabList>
             <div>
                 <TabPanel>
+                    <VerticalAlign>
+                        <SmallButton 
+                            icon={<ArrowUndoRegular fontSize={16}/>}
+                            text="Undo"
+                            showMenu={true}
+                        />
+                        <SmallButton 
+                            icon={<ArrowRedoRegular fontSize={16}/>}
+                            text="Redo"
+                        />
+                        <SmallButton 
+                            icon={<QuestionRegular fontSize={16}/>}
+                            text="Help"
+                        />
+                    </VerticalAlign>
+                    <Divider />
                     <BigButton
                         icon={<ClipboardPasteRegular fontSize={40}/>}
                         text="Paste"
                         showMenu={true}
                     />
-                    <Divider />
-                    <BigButton
-                        icon={<CopyRegular fontSize={40}/>}
+                    <SmallButton
+                        icon={<CopyRegular fontSize={16}/>}
                         text="Copy"
                     />
-                    <SmallButton 
-                        icon={<ArrowUndoRegular fontSize={16}/>}
-                        text="Undo"
-                    />
+                    <Divider />
                 </TabPanel>
                 <TabPanel>
                     <h2>View</h2>
