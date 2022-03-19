@@ -1,5 +1,17 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { ClipboardPasteRegular, CopyRegular, ArrowUndoRegular, ArrowRedoRegular, QuestionRegular } from '@fluentui/react-icons'
+import { 
+    ClipboardPasteRegular, 
+    CopyRegular, 
+    ArrowUndoRegular, 
+    ArrowRedoRegular, 
+    QuestionRegular, 
+    GanttChartRegular, 
+    LayerRegular, 
+    OptionsRegular,
+    CutRegular,
+    CursorRegular,
+    DataLine24Regular
+} from '@fluentui/react-icons'
 import { BigButton, SmallButton, Divider, VerticalAlign } from './components/ribonPrimitives';
 
 function Ribon({ onOpenFileMenu } : {
@@ -35,14 +47,40 @@ function Ribon({ onOpenFileMenu } : {
                         text="Paste"
                         showMenu={true}
                     />
-                    <SmallButton
-                        icon={<CopyRegular fontSize={16}/>}
-                        text="Copy"
-                    />
+                    <VerticalAlign>
+                        <SmallButton
+                            icon={<CopyRegular fontSize={16}/>}
+                            text="Copy"
+                        />
+                        <SmallButton
+                            icon={<CutRegular fontSize={16}/>}
+                            text="Cut"
+                        />
+                    </VerticalAlign>
                     <Divider />
+                    <BigButton
+                        icon={<CursorRegular fontSize={40}/>}
+                        text="Select"
+                    />
+                    {/*This icon is temporary*/}
+                    <BigButton
+                        icon={<DataLine24Regular fontSize={40}/>}
+                        text="Edit"
+                    />
                 </TabPanel>
                 <TabPanel>
-                    <h2>View</h2>
+                    <SmallButton
+                        icon={<GanttChartRegular fontSize={16}/>}
+                        text="Timeline"
+                    />
+                    <SmallButton
+                        icon={<LayerRegular fontSize={16}/>}
+                        text="Layers"
+                    />
+                    <SmallButton
+                        icon={<OptionsRegular />}
+                        text="Object properties"
+                    />
                 </TabPanel>
             </div>
         </Tabs>
