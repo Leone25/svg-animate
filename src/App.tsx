@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Ribon from './ribon';
 import FileMenu from './fileMenu';
+import { ResizableArea } from './components/resizableArea';
 
 function App() {
 
@@ -21,6 +22,13 @@ function App() {
     <div className="App">
       <Ribon onOpenFileMenu={openFileMenu}/>
       <FileMenu show={isFileMenuOpen} closeCallback={closeFileMenu}/>
+      <ResizableArea>
+        <div> test1 </div>
+        <div> test2 </div>
+        <div> test3 </div>
+        <div> test4 </div>
+        <div> test5 </div>
+      </ResizableArea>
     </div>
   );
 }
