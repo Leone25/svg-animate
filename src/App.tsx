@@ -25,9 +25,6 @@ function App() {
       <ResizableArea>
         <div> test1 </div>
         <div> test2 </div>
-        <div> test3 </div>
-        <div> test4 </div>
-        <div> test5 </div>
       </ResizableArea>
     </div>
   );
