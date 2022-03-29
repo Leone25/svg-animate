@@ -22,7 +22,7 @@ function App() {
     <div className="App">
       <Ribon onOpenFileMenu={openFileMenu}/>
       <FileMenu show={isFileMenuOpen} closeCallback={closeFileMenu}/>
-      <ResizableArea>
+      <ResizableArea minSizes={[0.2, 0.2]}>
         <div> test1 </div>
         <div> test2 </div>
       </ResizableArea>

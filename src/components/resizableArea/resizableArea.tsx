@@ -2,25 +2,41 @@ import React, { useCallback, useState } from "react";
 
 export function ResizableArea({
     children, 
-    initialSizes
+    initialSizes,
+    minSizes = [0, 0],
 } : {
     children: [React.ReactChild, React.ReactChild],
-    initialSizes?: number
+    initialSizes?: number,
+    minSizes?: [number, number],
 }) {
     let containerRef = React.useRef<HTMLDivElement>(null);
     let [size, setSize] = useState(initialSizes || 0.5);
     let [isDragging, setIsDragging] = useState(false);
 
-    let startDrag = useCallback((e: React.MouseEvent) => {
+    let startDrag = useCallback((e) => {
         setIsDragging(true);
     }, [setIsDragging]);
-    let endDrag = useCallback((e: React.MouseEvent) => {
+    let endDrag = useCallback((e) => {
         setIsDragging(false);
     }, [setIsDragging]);
-    let drag = useCallback((e: React.MouseEvent) => {
+    let drag = useCallback((e) => {
         if (!isDragging) return;
-        setSize(Math.max(0, Math.min(1, (e.clientY - (containerRef.current?.offsetTop || 0)) / (containerRef.current?.clientHeight || 1))));
-    }, [setSize, isDragging, containerRef]);
+        setSize(Math.max(minSizes[0], Math.min(1-minSizes[1], (e.clientY - (containerRef.current?.offsetTop || 0)) / (containerRef.current?.clientHeight || 1))));
+    }, [setSize, isDragging, containerRef, minSizes]);
+
+    React.useEffect(() => {
+        if (isDragging) {
+            window.addEventListener("mousemove", drag);
+            window.addEventListener("mouseup", endDrag);
+            return () => {
+                window.removeEventListener("mousemove", drag);
+                window.removeEventListener("mouseup", endDrag);
+            }
+        } else {
+            window.removeEventListener("mousemove", drag);
+            window.removeEventListener("mouseup", endDrag);
+        }
+    }, [isDragging])
     
     return (<div style={{
                 display:'grid',
@@ -29,10 +45,11 @@ export function ResizableArea({
                 gridTemplateRows: `calc(${size*100}% - 5px) 10px 1fr`
             }}
             ref={containerRef}
-            onMouseUp={endDrag} onMouseMove={drag}
         >
         {children[0]}
-        <div style={{background:'red', cursor:'row-resize'}} onMouseDown={startDrag}></div>
+        <div style={{background:'rgb(0, 20, 29)', cursor:'row-resize', display:'grid', justifyItems:'center', alignItems:'center'}} onMouseDown={startDrag}>
+            <div style={{background:'#777', width:'80%', height:'3px', borderRadius:'4px'}}></div>
+        </div>
         {children[1]}
     </div>)
 }
