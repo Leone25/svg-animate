@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-export function ResizableArea({
+export function VerticalResizableArea({
     children, 
     initialSizes,
     minSizes = [0, 0],
@@ -38,14 +38,7 @@ export function ResizableArea({
         }
     }, [isDragging])
     
-    return (<div style={{
-                display:'grid',
-                height:'100%',
-                gridTemplateColumns: '1fr',
-                gridTemplateRows: `calc(${size*100}% - 5px) 10px 1fr`
-            }}
-            ref={containerRef}
-        >
+    return (<div style={{gridTemplateRows: `calc(${size*100}% - 5px) 10px 1fr`}} className='vertical-resizable-area' ref={containerRef} >
         {children[0]}
         <div style={{background:'rgb(0, 20, 29)', cursor:'row-resize', display:'grid', justifyItems:'center', alignItems:'center'}} onMouseDown={startDrag}>
             <div style={{background:'#777', width:'80%', height:'3px', borderRadius:'4px'}}></div>

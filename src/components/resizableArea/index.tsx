@@ -1,1 +1,2 @@
-export * from './resizableArea';
+export * from './area';
+export * from './verticalResizableArea';

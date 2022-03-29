@@ -15,6 +15,17 @@
   grid-template-rows: auto 1fr;
 }
 
+.vertical-resizable-area {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.vertical-resizable-area .area {
+  overflow: hidden;
+}
+
 .ribon {
   height: 150px;
   border-bottom: 1px solid #aaa;
@@ -139,6 +150,7 @@
   display: grid;
   grid-template-columns: 200px 1fr;
   grid-template-rows: 1fr;
+  z-index: 1000;
 }
 
 .filemenu.open {
