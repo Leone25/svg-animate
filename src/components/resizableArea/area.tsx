@@ -2,8 +2,10 @@ import React from "react";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
 export function Area({
+    scrollable = true,
     children
 } : {
+    scrollable?: boolean,
     children: React.ReactNode
 }) {
     function renderThumb({ style, ...props } : { style: React.CSSProperties }) {
@@ -13,8 +15,12 @@ export function Area({
     }
 
     return (<div className='area'>
-        <Scrollbars style={{width:'100%', height:'100%'}} autoHide={true} renderThumbHorizontal={renderThumb} renderThumbVertical={renderThumb}>
+        {scrollable
+        && (<Scrollbars style={{width:'100%', height:'100%'}} autoHide={true} renderThumbHorizontal={renderThumb} renderThumbVertical={renderThumb}>
             {children}
-        </Scrollbars>
+        </Scrollbars>)
+        || (<div style={{width:'100%', height:'100%'}}>
+            {children}
+        </div>)}
     </div>)
 }
