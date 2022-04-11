@@ -23,7 +23,7 @@ function FileMenu({ closeCallback, show } : {
             </TabList>
             <div>
                 <TabPanel>
-                    Probably a button to open a file
+                  Commit id: {process.env.REACT_APP_VERCEL_GIT_COMMIT_SHA || "unknown"}
                 </TabPanel>
                 <TabPanel>
                     Idk man
