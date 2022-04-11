@@ -148,6 +148,28 @@
   justify-content: center;
 }
 
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.timeline .heading {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+}
+
+.timeline .heading .left {
+  background-color: red;
+}
+
+.timeline .heading .right {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
 .filemenu {
   position: absolute;
   width: 100%;

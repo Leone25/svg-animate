@@ -3,6 +3,7 @@ import './App.css';
 import Ribon from './ribon';
 import FileMenu from './fileMenu';
 import { VerticalResizableArea, HorizontalResizableArea, Area } from './components/resizableArea';
+import { Timeline } from './timeline';
 
 function App() {
 
@@ -40,11 +41,7 @@ function App() {
           </HorizontalResizableArea>
         </Area>
         <Area> 
-          <p>Aut harum debitis quo odit enim omnis voluptatum itaque. Quia est ullam assumenda nesciunt quas blanditiis repellendus. Nesciunt beatae voluptas voluptatem illum dolorem laboriosam dicta. Tempora sunt voluptatum molestiae sint. Fugiat perferendis odio ad esse nisi nobis ut distinctio.</p>
-          <p>Quis magni provident et consectetur. Enim ea culpa sed quos et tempore. Dolore adipisci rem natus provident consequuntur et.</p>
-          <p>Deleniti ut quae error dolor. Quia dicta similique est beatae earum mollitia. Et officiis qui tempore repudiandae. Doloribus quis minima commodi eos. Et consequuntur autem et. Tenetur qui voluptas voluptatem dolores laudantium.</p>
-          <p>Sit voluptatem impedit modi. Dolor eligendi quaerat et. Et eligendi mollitia saepe praesentium. Voluptatem eius veritatis corporis aut reprehenderit velit. Saepe excepturi ut laudantium animi accusamus quo.</p>
-          <p>Rerum aut neque omnis soluta repudiandae. Quis nihil quis velit repudiandae molestiae ut in consequuntur. Aut ut est blanditiis. Architecto et voluptatum quia accusamus quia. Qui qui mollitia necessitatibus dolore enim qui quia. Corporis voluptatibus sint est.</p>
+          <Timeline state={{}} zoom={1} cursorPosition={100}></Timeline>
         </Area>
       </VerticalResizableArea>
     </div>
