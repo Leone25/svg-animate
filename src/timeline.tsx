@@ -24,20 +24,17 @@ function Heading({
     leftSize: number,
 }) {
     let ref = useRef<HTMLDivElement>(null);
-    let [size, setSize] = useState({height: 0, width: 0});
+    let [width, setWidth] = useState(0);
     let callback = useCallback(() => {
-        if (ref.current) {
-            if (ref.current.clientHeight !== size.height || ref.current.clientWidth !== size.width) {
-                setSize(ref.current.getBoundingClientRect());
-            }
+        if (ref.current && ref.current.clientWidth) {
+            setWidth(ref.current.clientWidth);
         }
-    }, [size, setSize, ref]);
+    }, [width, setWidth, ref]);
     useEffect(callback);
     useEffect(() => {
         if (!ref.current) return;
 
         let resizeObserver = new ResizeObserver(() => {
-            console.log("The element was resized");
             callback();
         });
   
@@ -48,31 +45,39 @@ function Heading({
             left
         </div>
         <div className='right' ref={ref}>
-            <svg width={size.width} height={30}>
+            <svg width={width} height={30}>
                 {(() => {
-                    let svg = <></>;
-                    let frameEnd = frameStart + size.width / zoom;
-                    let offset = (frameStart - Math.floor(frameStart)) * zoom;
-                    for (let i = frameStart; i < frameEnd; i += zoom * 20) {
-                        svg = <>
-                            {svg}
-                            <line x1={(i - frameStart) * zoom + offset}
+                    let svg = [];
+                    let frameEnd = frameStart + width / zoom;
+                    let s = 20/zoom;
+                    let offset = (frameStart - Math.floor(frameStart));
+                    for (let i = frameStart; i < frameEnd; i += zoom) {
+                        svg.push(<line x1={(i - frameStart + offset) * s}
+                                y1={20} 
+                                x2={(i - frameStart + offset) * s}
+                                y2={30}
+                                stroke="white"
+                                strokeWidth={1}
+                                key={i+"-small"}
+                            />);
+                        svg.push(<line x1={(i - frameStart + offset + 0.5) * s}
                                 y1={15} 
-                                x2={(i - frameStart) * zoom + offset}
+                                x2={(i - frameStart + offset + 0.5) * s}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={2}
-                            />
-                            <text x={(i - frameStart) * zoom + offset}
+                                key={i+"-big"}
+                            />);
+                        svg.push(<text x={(i - frameStart + offset + 0.5) * s}
                                 y={10}
                                 textAnchor="middle"
                                 fontSize={10}
                                 fontFamily="monospace"
                                 fill="white"
+                                key={i+"-text"}
                             >
-                                {i/zoom/20}
-                            </text>
-                        </>
+                                {i}
+                            </text>);
                     }
                     return svg;
                 })()}

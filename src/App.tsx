@@ -41,7 +41,7 @@ function App() {
           </HorizontalResizableArea>
         </Area>
         <Area> 
-          <Timeline state={{}} zoom={1} cursorPosition={100}></Timeline>
+          <Timeline state={{}} zoom={2} cursorPosition={100}></Timeline>
         </Area>
       </VerticalResizableArea>
     </div>
