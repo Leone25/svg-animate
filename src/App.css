@@ -158,16 +158,35 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
+  gap: 4px;
 }
 
 .timeline .heading .left {
-  background-color: red;
-}
-
-.timeline .heading .right {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  background-color: #333;
+  border-radius: 4px;
+  padding: 2px;
+  margin: 2px;
+}
+
+.timeline .heading .right {
+  overflow: hidden;
+}
+
+.timeline .heading .right .frame-number {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  background-color: #333;
+  border-radius: 4px;
+  padding: 2px;
+  margin: 2px;
 }
 
 .filemenu {
