@@ -9,8 +9,18 @@ export function Timeline({
     zoom: number,
     cursorPosition: number,
 }) {
+    let [ frameStart, setFrameStart ] = useState(20);
+    let callback = useCallback((e) => {
+        setFrameStart(e.target.value);
+    }, [setFrameStart, frameStart]);
+    let [ z, setZ ] = useState(1);
+    let callbackZ = useCallback((e) => {
+        setZ(e.target.value);
+    }, [setZ, z]);
     return (<div className="timeline">
-        <Heading frameStart={20} zoom={zoom} leftSize={250}></Heading>
+        <Heading frameStart={frameStart} zoom={z} leftSize={250}></Heading>
+        <input type='range' min={20} max={21} step={0.1} value={frameStart} onChange={callback}></input>
+        <input type='range' min={1} max={4} step={0.1} value={z} onChange={callbackZ}></input>
     </div>)
 }
 
@@ -26,49 +36,63 @@ function Heading({
     let ref = useRef<HTMLDivElement>(null);
     let [width, setWidth] = useState(0);
     let callback = useCallback(() => {
-        if (ref.current && ref.current.clientWidth) {
+        if (ref.current && ref.current.clientWidth != width) {
             setWidth(ref.current.clientWidth);
         }
     }, [width, setWidth, ref]);
-    useEffect(callback);
     useEffect(() => {
         if (!ref.current) return;
 
         let resizeObserver = new ResizeObserver(() => {
             callback();
         });
+
+        callback();
   
         resizeObserver.observe(ref.current);
     }, []);
+
+    let s = 20/zoom;
+    let frameStartNumber = Math.floor(frameStart);
+    let frameEnd = frameStart + width / s;
+    let offset = (frameStart - frameStartNumber);
+
+    console.log(s);
+    
     return (<div className='heading'>
         <div className='left' style={{width:leftSize}}>
             left
         </div>
         <div className='right' ref={ref}>
             <svg width={width} height={30}>
-                {(() => {
-                    let svg = [];
-                    let frameEnd = frameStart + width / zoom;
-                    let s = 20/zoom;
-                    let offset = (frameStart - Math.floor(frameStart));
-                    for (let i = frameStart; i < frameEnd; i += zoom) {
-                        svg.push(<line x1={(i - frameStart + offset) * s}
+                <defs>
+                    <pattern
+                        id="dashes"
+                        width={(offset + Math.floor(zoom) + Math.floor(Math.pow(zoom, 2))) * s}
+                        height={30}
+                        patternUnits="userSpaceOnUse"
+                        >
+                            {Array(Math.floor(zoom*10)).map((_, i) => { return (<line x1={(offset + i) * s}
                                 y1={20} 
-                                x2={(i - frameStart + offset) * s}
+                                x2={(offset + i) * s}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={1}
-                                key={i+"-small"}
-                            />);
-                        svg.push(<line x1={(i - frameStart + offset + 0.5) * s}
+                            />)})}
+                            <line x1={(offset + 0.5 * Math.floor(zoom)) * s}
                                 y1={15} 
-                                x2={(i - frameStart + offset + 0.5) * s}
+                                x2={(offset + 0.5 * Math.floor(zoom)) * s}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={2}
-                                key={i+"-big"}
-                            />);
-                        svg.push(<text x={(i - frameStart + offset + 0.5) * s}
+                            />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#dashes)" />
+                {(() => {
+                    let svg = [];
+                    for (let i = frameStartNumber; i < frameEnd; i += Math.floor(Math.pow(zoom, 2))) {
+                        svg.push(<text x={(i - frameStartNumber + offset + 0.5 * Math.floor(zoom)) * s}
                                 y={10}
                                 textAnchor="middle"
                                 fontSize={10}
