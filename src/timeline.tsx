@@ -19,7 +19,7 @@ export function Timeline({
     }, [setZ, z]);
     return (<div className="timeline">
         <Heading frameStart={frameStart} zoom={z} leftSize={250}></Heading>
-        <input type='range' min={20} max={21} step={0.1} value={frameStart} onChange={callback}></input>
+        <input type='range' min={20} max={24} step={0.1} value={frameStart} onChange={callback}></input>
         <input type='range' min={1} max={4} step={0.1} value={z} onChange={callbackZ}></input>
     </div>)
 }
@@ -53,11 +53,13 @@ function Heading({
     }, []);
 
     let s = 20/zoom;
+    let ss = Math.floor(Math.pow(zoom, 2)) * s;
+    let offset = frameStart % zoom;
     let frameStartNumber = Math.floor(frameStart);
-    let frameEnd = frameStart + width / s;
-    let offset = (frameStart - frameStartNumber);
+    let frameEnd = Number(frameStart) + width / s;
 
-    console.log(s);
+    console.log(frameStart, frameStartNumber, frameEnd, offset);
+    
     
     return (<div className='heading'>
         <div className='left' style={{width:leftSize}}>
@@ -68,20 +70,29 @@ function Heading({
                 <defs>
                     <pattern
                         id="dashes"
-                        width={(offset + Math.floor(zoom) + Math.floor(Math.pow(zoom, 2))) * s}
+                        width={ss}
                         height={30}
+                        x={-offset * s}
+                        y={0}
                         patternUnits="userSpaceOnUse"
                         >
-                            {Array(Math.floor(zoom*10)).map((_, i) => { return (<line x1={(offset + i) * s}
+                            {/*Array(Math.floor(zoom*10)).map((_, i) => { return (<line x1={(offset + i) * s}
                                 y1={20} 
                                 x2={(offset + i) * s}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={1}
-                            />)})}
-                            <line x1={(offset + 0.5 * Math.floor(zoom)) * s}
+                            />)})*/}
+                            <line x1={0.5 * ss}
                                 y1={15} 
-                                x2={(offset + 0.5 * Math.floor(zoom)) * s}
+                                x2={0.5 * ss}
+                                y2={30}
+                                stroke="white"
+                                strokeWidth={2}
+                            />
+                            <line x1={1.5 * ss}
+                                y1={15} 
+                                x2={1.5 * ss}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={2}
@@ -89,22 +100,24 @@ function Heading({
                     </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#dashes)" />
-                {(() => {
-                    let svg = [];
-                    for (let i = frameStartNumber; i < frameEnd; i += Math.floor(Math.pow(zoom, 2))) {
-                        svg.push(<text x={(i - frameStartNumber + offset + 0.5 * Math.floor(zoom)) * s}
-                                y={10}
-                                textAnchor="middle"
-                                fontSize={10}
-                                fontFamily="monospace"
-                                fill="white"
-                                key={i+"-text"}
-                            >
-                                {i}
-                            </text>);
-                    }
-                    return svg;
-                })()}
+                <svg x={-offset * s} width={width+ss}>
+                    {(() => {
+                        let svg = [];
+                        for (let i = frameStartNumber; i < Number(frameEnd) + 1; i += Math.floor(Math.pow(zoom, 2))) {
+                            svg.push(<text x={0.5 * ss + (i - frameStartNumber) * s}
+                                    y={10}
+                                    textAnchor="middle"
+                                    fontSize={10}
+                                    fontFamily="monospace"
+                                    fill="white"
+                                    key={i+"-text"}
+                                >
+                                    {i}
+                                </text>);
+                        }
+                        return svg;
+                    })()}
+                </svg>
             </svg>
         </div>
     </div>)
