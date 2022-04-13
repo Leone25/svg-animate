@@ -12,11 +12,11 @@ export function Timeline({
     let [ frameStart, setFrameStart ] = useState(20);
     let callback = useCallback((e) => {
         setFrameStart(e.target.value);
-    }, [setFrameStart, frameStart]);
+    }, [setFrameStart]);
     let [ z, setZ ] = useState(1);
     let callbackZ = useCallback((e) => {
         setZ(e.target.value);
-    }, [setZ, z]);
+    }, [setZ]);
     return (<div className="timeline">
         <Heading frameStart={frameStart} zoom={z} leftSize={250}></Heading>
         <input type='range' min={20} max={24} step={0.1} value={frameStart} onChange={callback}></input>
@@ -36,7 +36,7 @@ function Heading({
     let ref = useRef<HTMLDivElement>(null);
     let [width, setWidth] = useState(0);
     let callback = useCallback(() => {
-        if (ref.current && ref.current.clientWidth != width) {
+        if (ref.current && ref.current.clientWidth !== width) {
             setWidth(ref.current.clientWidth);
         }
     }, [width, setWidth, ref]);
@@ -52,14 +52,47 @@ function Heading({
         resizeObserver.observe(ref.current);
     }, []);
 
-    let s = 20/zoom;
-    let ss = Math.floor(Math.pow(zoom, 2)) * s;
-    let offset = frameStart % zoom;
-    let frameStartNumber = Math.floor(frameStart);
-    let frameEnd = Number(frameStart) + width / s;
+    const zooms:{
+        zoom: number,
+        numberSpacing: number,
+        subLines: number,
+    }[] = [
+        {
+            zoom: 4,
+            numberSpacing: 20,
+            subLines: 19,
+        },
+        {
+            zoom: 3,
+            numberSpacing: 10,
+            subLines: 9,
+        },
+        {
+            zoom: 2,
+            numberSpacing: 4,
+            subLines: 3,
+        },
+        {
+            zoom: 1.5,
+            numberSpacing: 2,
+            subLines: 1,
+        },
+        {   
+            zoom: 0,
+            numberSpacing: 1,
+            subLines: 1,
+        }
+    ];
 
-    console.log(frameStart, frameStartNumber, frameEnd, offset);
+    let zoomSettings = zooms.find((setting) => setting.zoom <= zoom) || zooms[zooms.length - 1];
+    let frameStartNumber = frameStart - frameStart%zoomSettings.numberSpacing;
+    let s = 20/zoom;
     
+    let ss =1;
+
+    //let s = 20/zoomSettings.numberSpacing;
+    let offset = frameStart % Math.floor(Math.pow(zoom, 2));
+    let frameEnd = Number(frameStart) + width / s;
     
     return (<div className='heading'>
         <div className='left' style={{width:leftSize}}>
@@ -76,13 +109,13 @@ function Heading({
                         y={0}
                         patternUnits="userSpaceOnUse"
                         >
-                            {/*Array(Math.floor(zoom*10)).map((_, i) => { return (<line x1={(offset + i) * s}
+                            {Array(Math.floor(1/zoom)).fill(0).map((_, i) => { return (<line x1={i * s}
                                 y1={20} 
-                                x2={(offset + i) * s}
+                                x2={i * s}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={1}
-                            />)})*/}
+                            />)})}
                             <line x1={0.5 * ss}
                                 y1={15} 
                                 x2={0.5 * ss}
@@ -101,7 +134,17 @@ function Heading({
                 </defs>
                 <rect width="100%" height="100%" fill="url(#dashes)" />
                 <svg x={-offset * s} width={width+ss}>
-                    {(() => {
+                    {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * s * zoomSettings.numberSpacing}
+                                    y={10}
+                                    textAnchor="middle"
+                                    fontSize={10}
+                                    fontFamily="monospace"
+                                    fill="white"
+                                    key={i+"-text"}
+                                >
+                                    {i*zoomSettings.numberSpacing + frameStartNumber}
+                                </text>))}
+                    {/*(() => {
                         let svg = [];
                         for (let i = frameStartNumber; i < Number(frameEnd) + 1; i += Math.floor(Math.pow(zoom, 2))) {
                             svg.push(<text x={0.5 * ss + (i - frameStartNumber) * s}
@@ -116,7 +159,7 @@ function Heading({
                                 </text>);
                         }
                         return svg;
-                    })()}
+                    })()*/}
                 </svg>
             </svg>
         </div>
