@@ -87,12 +87,8 @@ function Heading({
     let zoomSettings = zooms.find((setting) => setting.zoom <= zoom) || zooms[zooms.length - 1];
     let frameStartNumber = frameStart - frameStart%zoomSettings.numberSpacing;
     let s = 20/zoom;
-    
-    let ss =1;
-
-    //let s = 20/zoomSettings.numberSpacing;
+    let ss = s * zoomSettings.numberSpacing;
     let offset = frameStart % Math.floor(Math.pow(zoom, 2));
-    let frameEnd = Number(frameStart) + width / s;
     
     return (<div className='heading'>
         <div className='left' style={{width:leftSize}}>
@@ -109,23 +105,23 @@ function Heading({
                         y={0}
                         patternUnits="userSpaceOnUse"
                         >
-                            {Array(Math.floor(1/zoom)).fill(0).map((_, i) => { return (<line x1={i * s}
-                                y1={20} 
-                                x2={i * s}
+                            {Array(zoomSettings.subLines).fill(0).map((_, i) => { return (<line x1={(i+1) * s}
+                                y1={i == (zoomSettings.subLines-1)/2 ? 18 : 22} 
+                                x2={(i+1) * s}
                                 y2={30}
-                                stroke="white"
-                                strokeWidth={1}
+                                stroke="gray"
+                                strokeWidth={2}
                             />)})}
-                            <line x1={0.5 * ss}
+                            <line x1={0}
                                 y1={15} 
-                                x2={0.5 * ss}
+                                x2={0}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={2}
                             />
-                            <line x1={1.5 * ss}
+                            <line x1={ss}
                                 y1={15} 
-                                x2={1.5 * ss}
+                                x2={ss}
                                 y2={30}
                                 stroke="white"
                                 strokeWidth={2}
@@ -134,32 +130,17 @@ function Heading({
                 </defs>
                 <rect width="100%" height="100%" fill="url(#dashes)" />
                 <svg x={-offset * s} width={width+ss}>
-                    {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * s * zoomSettings.numberSpacing}
-                                    y={10}
-                                    textAnchor="middle"
-                                    fontSize={10}
-                                    fontFamily="monospace"
-                                    fill="white"
-                                    key={i+"-text"}
-                                >
-                                    {i*zoomSettings.numberSpacing + frameStartNumber}
-                                </text>))}
-                    {/*(() => {
-                        let svg = [];
-                        for (let i = frameStartNumber; i < Number(frameEnd) + 1; i += Math.floor(Math.pow(zoom, 2))) {
-                            svg.push(<text x={0.5 * ss + (i - frameStartNumber) * s}
-                                    y={10}
-                                    textAnchor="middle"
-                                    fontSize={10}
-                                    fontFamily="monospace"
-                                    fill="white"
-                                    key={i+"-text"}
-                                >
-                                    {i}
-                                </text>);
-                        }
-                        return svg;
-                    })()*/}
+                    {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * ss}
+                            y={10}
+                            textAnchor="middle"
+                            fontSize={10}
+                            fontFamily="monospace"
+                            fill="white"
+                            key={i+"-text"}
+                        >
+                            {i*zoomSettings.numberSpacing + frameStartNumber}
+                    </text>))}
+                    
                 </svg>
             </svg>
         </div>
