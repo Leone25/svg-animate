@@ -1,37 +1,30 @@
 import { useRef, useEffect, useState, useCallback } from "react";
+import { HorizontalResizableArea, Area } from './components/resizableArea';
 
 export function Timeline({
-    state,
-    zoom,
-    cursorPosition,
+    state
 } : {
     state: any,
-    zoom: number,
-    cursorPosition: number,
 }) {
-    let [ frameStart, setFrameStart ] = useState(20);
-    let callback = useCallback((e) => {
-        setFrameStart(e.target.value);
-    }, [setFrameStart]);
-    let [ z, setZ ] = useState(1);
-    let callbackZ = useCallback((e) => {
-        setZ(e.target.value);
-    }, [setZ]);
-    return (<div className="timeline">
-        <Heading frameStart={frameStart} zoom={z} leftSize={250}></Heading>
-        <input type='range' min={20} max={24} step={0.1} value={frameStart} onChange={callback}></input>
-        <input type='range' min={1} max={4} step={0.1} value={z} onChange={callbackZ}></input>
-    </div>)
+    return (<HorizontalResizableArea minSizes={[0.1, 0.5]} initialSizes={0.2} className="timeline">
+        <Area>
+            <div className="layers">
+                <div className="heading"> header </div>
+                left
+            </div>
+        </Area>
+        <Area>
+            <FrameMarkings frameStart={state.view.frameStart} zoom={state.view.zoom} />
+        </Area>
+    </HorizontalResizableArea>);
 }
 
-function Heading({
+function FrameMarkings({
     frameStart,
     zoom,
-    leftSize,
 } : {
     frameStart: number,
     zoom: number,
-    leftSize: number,
 }) {
     let ref = useRef<HTMLDivElement>(null);
     let [width, setWidth] = useState(0);
@@ -73,7 +66,7 @@ function Heading({
             subLines: 3,
         },
         {
-            zoom: 1.5,
+            zoom: 1.2,
             numberSpacing: 2,
             subLines: 1,
         },
@@ -90,59 +83,62 @@ function Heading({
     let ss = s * zoomSettings.numberSpacing;
     let offset = frameStart % Math.floor(Math.pow(zoom, 2));
     
-    return (<div className='heading'>
-        <div className='left' style={{width:leftSize}}>
-            left
-        </div>
-        <div className='right' ref={ref}>
-            <svg width={width} height={30}>
-                <defs>
-                    <pattern
-                        id="dashes"
-                        width={ss}
-                        height={30}
-                        x={-offset * s}
-                        y={0}
-                        patternUnits="userSpaceOnUse"
-                        >
-                            {Array(zoomSettings.subLines).fill(0).map((_, i) => { return (<line x1={(i+1) * s}
-                                y1={i == (zoomSettings.subLines-1)/2 ? 18 : 22} 
-                                x2={(i+1) * s}
-                                y2={30}
-                                stroke="gray"
-                                strokeWidth={2}
-                            />)})}
-                            <line x1={0}
-                                y1={15} 
-                                x2={0}
-                                y2={30}
-                                stroke="white"
-                                strokeWidth={2}
-                            />
-                            <line x1={ss}
-                                y1={15} 
-                                x2={ss}
-                                y2={30}
-                                stroke="white"
-                                strokeWidth={2}
-                            />
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#dashes)" />
-                <svg x={-offset * s} width={width+ss}>
-                    {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * ss}
-                            y={10}
-                            textAnchor="middle"
-                            fontSize={10}
-                            fontFamily="monospace"
-                            fill="white"
-                            key={i+"-text"}
-                        >
-                            {i*zoomSettings.numberSpacing + frameStartNumber}
-                    </text>))}
-                    
-                </svg>
+    return (<div className='frames-marking' ref={ref}>
+        <svg width={width} height={30}>
+            <defs>
+                <pattern
+                    id="dashes"
+                    width={ss}
+                    height={30}
+                    x={-offset * s}
+                    y={0}
+                    patternUnits="userSpaceOnUse"
+                    >
+                        {Array(zoomSettings.subLines).fill(0).map((_, i) => { return (<line x1={(i+1) * s}
+                            y1={i == (zoomSettings.subLines-1)/2 ? 18 : 22} 
+                            x2={(i+1) * s}
+                            y2={30}
+                            stroke="gray"
+                            strokeWidth={2}
+                            key={i}
+                        />)})}
+                        <line x1={0}
+                            y1={15} 
+                            x2={0}
+                            y2={30}
+                            stroke="white"
+                            strokeWidth={2}
+                        />
+                        <line x1={ss}
+                            y1={15} 
+                            x2={ss}
+                            y2={30}
+                            stroke="white"
+                            strokeWidth={2}
+                        />
+                        <line x1={0}
+                            y1={30}
+                            x2={ss}
+                            y2={30}
+                            stroke="white"
+                            strokeWidth={2}
+                        />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dashes)" />
+            <svg x={-offset * s} width={width+ss}>
+                {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * ss}
+                        y={10}
+                        textAnchor="middle"
+                        fontSize={10}
+                        fontFamily="monospace"
+                        fill="white"
+                        key={i+"-text"}
+                    >
+                        {i*zoomSettings.numberSpacing + frameStartNumber}
+                </text>))}
+                
             </svg>
-        </div>
+        </svg>
     </div>)
 }

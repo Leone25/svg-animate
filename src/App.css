@@ -148,36 +148,15 @@
   justify-content: center;
 }
 
-.timeline {
+.timeline .layers {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-}
-
-.timeline .heading {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: 30px repeat(auto-fill, minmax(100px, 1fr));
   gap: 4px;
+  position: relative;
 }
 
-.timeline .heading .left {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  align-items: center;
-  justify-items: center;
-  background-color: #333;
-  border-radius: 4px;
-  padding: 2px;
-  margin: 2px;
-}
-
-.timeline .heading .right {
-  overflow: hidden;
-}
-
-.timeline .heading .right .frame-number {
+.timeline .layers .heading {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
