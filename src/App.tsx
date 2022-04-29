@@ -21,9 +21,9 @@ function App() {
     <div className="App">
       <Ribon onOpenFileMenu={openFileMenu}/>
       <FileMenu show={isFileMenuOpen} closeCallback={closeFileMenu}/>
-      <VerticalResizableArea minSizes={[0.2, 0.2]}>
+      <VerticalResizableArea minSizes={[[0,0],[0.2, 0.2]]}>
         <Area scrollable={false}>
-          <HorizontalResizableArea minSizes={[0.2, 0.2]}>
+          <HorizontalResizableArea minSizes={[[0.2, 0.2],[0,0]]}>
             <Area> 
               <p>Aut harum debitis quo odit enim omnis voluptatum itaque. Quia est ullam assumenda nesciunt quas blanditiis repellendus. Nesciunt beatae voluptas voluptatem illum dolorem laboriosam dicta. Tempora sunt voluptatum molestiae sint. Fugiat perferendis odio ad esse nisi nobis ut distinctio.</p>
               <p>Quis magni provident et consectetur. Enim ea culpa sed quos et tempore. Dolore adipisci rem natus provident consequuntur et.</p>

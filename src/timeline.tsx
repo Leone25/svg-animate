@@ -6,7 +6,7 @@ export function Timeline({
 } : {
     state: any,
 }) {
-    return (<HorizontalResizableArea minSizes={[0.1, 0.5]} initialSizes={0.2} className="timeline">
+    return (<HorizontalResizableArea minSizes={[[0.1, 0.5],[0,0]]} initialSize={[0.2, 0.2]} className="timeline">
         <Area>
             <div className="layers">
                 <div className="heading"> header </div>
