@@ -23,7 +23,7 @@ function FileMenu({ closeCallback, show } : {
             </TabList>
             <div>
                 <TabPanel>
-                  Commit id: {process.env.REACT_APP_VERCEL_GIT_COMMIT_SHA || "unknown"}
+                  Commit id: {import.meta.env.VITE_MY_VERCEL_GIT_COMMIT_SHA || "unknown"}
                 </TabPanel>
                 <TabPanel>
                     Idk man
