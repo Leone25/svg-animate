@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { HorizontalResizableArea, Area } from './components/resizableArea';
 
 export function Timeline({
-    state
+    state,
 } : {
     state: any,
 }) {
@@ -14,7 +14,7 @@ export function Timeline({
             </div>
         </Area>
         <Area>
-            <FrameMarkings frameStart={state.view.frameStart} zoom={state.view.zoom} />
+            <FrameMarkings frameStart={state.view.frameStart} zoom={state.view.zoom} maxFrame={state.content.size}/>
         </Area>
     </HorizontalResizableArea>);
 }
@@ -22,17 +22,25 @@ export function Timeline({
 function FrameMarkings({
     frameStart,
     zoom,
+    maxFrame,
 } : {
     frameStart: number,
     zoom: number,
+    maxFrame: number,
 }) {
     let ref = useRef<HTMLDivElement>(null);
     let [width, setWidth] = useState(0);
+    let [height, setHeight] = useState(30);
     let callback = useCallback(() => {
         if (ref.current && ref.current.clientWidth !== width) {
+            console.log(ref.current.clientWidth, 'w')
             setWidth(ref.current.clientWidth);
         }
-    }, [width, setWidth, ref]);
+        if (ref.current && ref.current.clientHeight !== height) {
+            console.log(ref.current.clientHeight, 'h')
+            setHeight(ref.current.clientHeight);
+        }
+    }, [width, setWidth, height, setHeight, ref]);
     useEffect(() => {
         if (!ref.current) return;
 
@@ -83,8 +91,8 @@ function FrameMarkings({
     let ss = s * zoomSettings.numberSpacing;
     let offset = frameStart % Math.floor(Math.pow(zoom, 2));
     
-    return (<div className='frames-marking' ref={ref}>
-        <svg width={width} height={30}>
+    return (<div className='frames' ref={ref}>
+        <svg width={width} height="100%">
             <defs>
                 <pattern
                     id="dashes"
@@ -125,20 +133,21 @@ function FrameMarkings({
                         />
                 </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#dashes)" />
-            <svg x={-offset * s} width={width+ss}>
-                {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * ss}
-                        y={10}
-                        textAnchor="middle"
-                        fontSize={10}
-                        fontFamily="monospace"
-                        fill="white"
-                        key={i+"-text"}
-                    >
-                        {i*zoomSettings.numberSpacing + frameStartNumber}
-                </text>))}
-                
-            </svg>
+            <g id="timeline grid">
+                <rect width="100%" height="30" fill="url(#dashes)" />
+                <g>
+                    {Array(Math.floor(width/s/zoomSettings.numberSpacing)+1).fill(0).map((_, i) => (<text x={i * ss}
+                            y={10}
+                            textAnchor="middle"
+                            fontSize={10}
+                            fontFamily="monospace"
+                            fill={i*zoomSettings.numberSpacing + frameStartNumber <= maxFrame ? "white" : "gray"}
+                            key={i+"-text"}
+                        >
+                            {i*zoomSettings.numberSpacing + frameStartNumber}
+                    </text>))}
+                </g>
+            </g>
         </svg>
     </div>)
 }

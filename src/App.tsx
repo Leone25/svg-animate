@@ -46,6 +46,9 @@ function App() {
               frameStart: 20,
               zoom: 1,
               cursorPosition: 0,
+            },
+            content: {
+              size: 50
             }
           }} />
         </Area>
